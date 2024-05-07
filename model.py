@@ -33,7 +33,6 @@ class QTrainer:
         self.criterion = nn.MSELoss()
         
     def train_step(self, state, action, reward, next_state, game_over):
-        
         state_array = np.array(state)
         next_state_array = np.array(next_state)
         action_array = np.array(action)
@@ -43,6 +42,7 @@ class QTrainer:
         next_state = torch.tensor(next_state_array, dtype=torch.float)
         action = torch.tensor(action_array, dtype=torch.long)
         reward = torch.tensor(reward_array, dtype=torch.float)
+        
         # (n, x) n = 4
         if len(state.shape) == 1:
             # (1, x)

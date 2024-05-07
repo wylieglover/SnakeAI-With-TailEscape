@@ -1,5 +1,5 @@
 # SnakeAI using A* Pathfinding
-Uses a* pathfinding or the model will take control when no path is found
+![SnakeAI](https://github.com/wylieglover/SnakeAI-With-AStar/assets/70774631/1b3ba6e4-01ef-439f-b6d1-42c9f17b1742)
 
 # Local Development Setup
 Before starting, these components must be installed (requirements.txt has them, look below for instructions)

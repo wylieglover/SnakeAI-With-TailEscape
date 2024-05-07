@@ -15,7 +15,7 @@ Start by cloning this repository into a local folder/directory:
 git clone https://github.com/wylieglover/SnakeAI-with-AStar.git
 ```
 
-Navigate into the repository's folder and run to download the necessary components:
+Navigate into the repository's folder and run this command to download the necessary components:
 ```sh
 pip install -r requirements.txt
 ```

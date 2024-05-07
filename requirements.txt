@@ -1,5 +1,3 @@
-python
-pip
 pygame
 torch
 numpy

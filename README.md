@@ -3,8 +3,12 @@
 
 # Local Development Setup
 Before starting, these components must be installed (requirements.txt has them, look below for instructions)
+
 - python
 - pip
+
+Contents of requirements.txt:
+
 - pygame
 - torch
 - numpy

@@ -20,7 +20,7 @@ Navigate into the repository's folder and run to download the necessary componen
 pip install -r requirements.txt
 ```
 
-Then finally run the command below to begin training!
+Then finally run the ```agent.py``` file with the command below to begin training!
 ```sh
 python3 agent.py
 ```

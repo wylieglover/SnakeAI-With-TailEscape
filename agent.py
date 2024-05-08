@@ -129,6 +129,8 @@ def train():
         
         if game_over:
             # train long memory (replay memory) and plot result
+            model_moves = game.model_moves
+            engine_moves = game.engine_moves
             game.reset()
             agent.n_games += 1
             agent.train_long_memory()
@@ -137,7 +139,7 @@ def train():
                 record = score
                 agent.model.save()
                 
-            print('Game: ', agent.n_games, 'Score: ', score, 'Record: ', record)
+            print('Game: ', agent.n_games, 'Agent Moves: ', model_moves, 'Engine Moves: ', engine_moves, 'Score: ', score, 'Record: ', record)
             
             plot_scores.append(score)
             total_score += score

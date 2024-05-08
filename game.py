@@ -51,6 +51,8 @@ class SnakeGameAI:
         self._place_food()
         self.frame_iteration = 0
         self.path = None
+        self.model_moves = 0
+        self.engine_moves = 0
 
     def _place_food(self):
         min_distance = 2 * BLOCK_SIZE  # Minimum distance from snake
@@ -163,8 +165,11 @@ class SnakeGameAI:
         pygame.display.flip()
 
     def _move(self, x, y, action): 
-        print("Model's action: ", action)
+        # print("Model's action: ", action) # <--- Spams console
         if action is not None:
+            print("Model's action: ", action)
+            self.model_moves += 1
+            # print(self.model_moves) # <--- Spams console
             # [straight, right, left]
             clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
             idx = clock_wise.index(self.direction)
@@ -191,6 +196,8 @@ class SnakeGameAI:
             elif self.direction == Direction.UP:
                 y -= BLOCK_SIZE
         else:
+            self.engine_moves += 1
+            # print(self.engine_moves)  # <--- Spams console
             dx = x - self.head.x
             dy = y - self.head.y
 

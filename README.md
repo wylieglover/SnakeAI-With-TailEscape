@@ -13,6 +13,7 @@ Contents of requirements.txt:
 - torch
 - numpy
 - matplotlib (for plotting training results)
+- IPython
 
 Start by cloning this repository into a local folder/directory:
 ```sh

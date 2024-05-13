@@ -24,7 +24,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 30
+SPEED = 50
 
 class SnakeGameAI:
     def __init__(self, w=640, h=480):
@@ -40,22 +40,19 @@ class SnakeGameAI:
     def reset(self):
         # init game state
         self.direction = Direction.RIGHT
-
         self.head = Point(self.w/2, self.h/2)
         self.snake = [self.head,
                       Point(self.head.x-BLOCK_SIZE, self.head.y),
                       Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
-
-        self.score = 0
         self.food = None
-        self._place_food()
+        self._place_food() 
+        self.score = 0
         self.frame_iteration = 0
-        self.path = None
         self.model_moves = 0
         self.engine_moves = 0
 
     def _place_food(self):
-        min_distance = 2 * BLOCK_SIZE  # Minimum distance from snake
+        min_distance = 2 * BLOCK_SIZE  # Minimum distance from snakew
         while True:
             x = random.randint(0, (self.w - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
             y = random.randint(0, (self.h - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
@@ -69,6 +66,13 @@ class SnakeGameAI:
                 self.food = food_position
                 break
 
+    def find_path (self):
+        head_x, head_y = self.head.x // BLOCK_SIZE, self.head.y // BLOCK_SIZE
+        food_x, food_y = self.food.x // BLOCK_SIZE, self.food.y // BLOCK_SIZE
+        self.path = find_path((head_x, head_y), (food_x, food_y), 
+                [(p.x // BLOCK_SIZE, p.y // BLOCK_SIZE) for p in self.snake],
+                self.w // BLOCK_SIZE, self.h // BLOCK_SIZE)
+        
     def play_step(self, action):
         self.frame_iteration += 1
         # 1. collect user input
@@ -76,22 +80,14 @@ class SnakeGameAI:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        
-        head_x, head_y = self.head.x // BLOCK_SIZE, self.head.y // BLOCK_SIZE
-        food_x, food_y = self.food.x // BLOCK_SIZE, self.food.y // BLOCK_SIZE
-      
-        path = find_path((head_x, head_y), (food_x, food_y), 
-                [(p.x // BLOCK_SIZE, p.y // BLOCK_SIZE) for p in self.snake],
-                self.w // BLOCK_SIZE, self.h // BLOCK_SIZE)
-        
-        print("New path: ", path)
+
+        print("New path: ", self.path)
+        self.find_path()
         
         reward = 0
         game_over = False  
-        
-        if path:
-            self.path = path
-            for coords in path[1:]:
+        if self.path:
+            for coords in self.path[1:]:
                 x = round(coords[0] * BLOCK_SIZE)
                 y = round(coords[1] * BLOCK_SIZE)
 

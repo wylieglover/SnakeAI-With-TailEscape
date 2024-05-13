@@ -5,6 +5,7 @@ from collections import deque
 from game import SnakeGameAI, Direction, Point
 from model import Linear_QNet, QTrainer
 from helper import plot
+import pygame
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -120,7 +121,7 @@ def train():
         reward, game_over, score = game.play_step(final_move)
        
         state_new = agent.get_state(game)
-        
+        pygame.display.set_caption(f'Game: {agent.n_games + 1} | Agent Moves: {game.model_moves} | A* Moves: {game.engine_moves} | Score: {game.score} | Record: {record}')
         # train short memory
         agent.train_short_memory(state_old, final_move, reward, state_new, game_over)
         
@@ -129,8 +130,6 @@ def train():
         
         if game_over:
             # train long memory (replay memory) and plot result
-            model_moves = game.model_moves
-            engine_moves = game.engine_moves
             game.reset()
             agent.n_games += 1
             agent.train_long_memory()
@@ -138,9 +137,7 @@ def train():
             if score > record: 
                 record = score
                 agent.model.save()
-                
-            print('Game: ', agent.n_games, 'Agent Moves: ', model_moves, 'Engine Moves: ', engine_moves, 'Score: ', score, 'Record: ', record)
-            
+        
             plot_scores.append(score)
             total_score += score
             mean_score = total_score / agent.n_games

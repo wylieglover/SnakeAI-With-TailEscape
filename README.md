@@ -1,4 +1,4 @@
-# SnakeAI using A* Pathfinding
+# SnakeAI using Tail-Escape Algorithm
 ![SnakeAI](https://github.com/wylieglover/SnakeAI-With-AStar/assets/70774631/1b3ba6e4-01ef-439f-b6d1-42c9f17b1742)
 
 # Local Development Setup

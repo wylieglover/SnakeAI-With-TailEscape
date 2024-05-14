@@ -1,5 +1,5 @@
 # SnakeAI using Tail-Escape Algorithm
-![image](https://github.com/wylieglover/SnakeAI-With-TailEscape/assets/70774631/27513a87-3fa4-4a5c-8c88-127ab974345d)
+![image](https://github.com/wylieglover/SnakeAI-With-TailEscape/assets/70774631/75372b26-a2f8-4672-9835-ee381d23afc7)
 
 # Local Development Setup
 Before starting, these components must be installed (requirements.txt has them, look below for instructions)

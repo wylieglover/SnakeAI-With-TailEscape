@@ -18,10 +18,12 @@ Point = namedtuple('Point', 'x, y')
 
 # rgb colors
 WHITE = (255, 255, 255)
-RED = (200,0,0)
-BLUE1 = (0, 0, 255)
-BLUE2 = (0, 100, 255)
-BLACK = (0,0,0)
+RED = (200, 0, 0)
+BLACK = (0, 0, 0)
+GREEN1 = (0, 255, 0)
+GREEN2 = (0, 186, 0)
+EYE_COLOR = (255, 255, 255)
+PUPIL_COLOR = (0, 0, 0)
 
 BLOCK_SIZE = 20
 SPEED = 100
@@ -111,16 +113,30 @@ class SnakeGameAI:
 
     def _update_ui(self):
         self.display.fill(BLACK)
-
-        for pt in self.snake:
-            pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
+        for i, pt in enumerate(self.snake):
+            if i == 0:  # Draw head with googly eyes
+                pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+                # Draw eyes
+                eye_radius = 3
+                pupil_radius = 2
+                # Left eye
+                eye_x = pt.x + 5
+                eye_y = pt.y + 5
+                pygame.draw.circle(self.display, EYE_COLOR, (eye_x, eye_y), eye_radius)
+                pygame.draw.circle(self.display, PUPIL_COLOR, (eye_x, eye_y), pupil_radius)
+                # Right eye
+                eye_x = pt.x + BLOCK_SIZE - 5
+                pygame.draw.circle(self.display, EYE_COLOR, (eye_x, eye_y), eye_radius)
+                pygame.draw.circle(self.display, PUPIL_COLOR, (eye_x, eye_y), pupil_radius)
+            else:  # Draw the body
+                pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+                pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x + 4, pt.y + 4, 12, 12))
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
-        pygame.display.flip()   
+        pygame.display.flip()
 
     def _move(self): 
         head = [self.head.x // BLOCK_SIZE, self.head.y // BLOCK_SIZE]

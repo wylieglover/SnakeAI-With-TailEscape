@@ -20,7 +20,7 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate (smaller than 1)
         self.memory = deque(maxlen=MAX_MEMORY) # pop left when memory max is reached
-        self.model = Linear_QNet(12, 256, 3)
+        self.model = Linear_QNet(11, 256, 3)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
         
     def get_state(self, game):
@@ -35,12 +35,7 @@ class Agent:
         dir_u = game.direction == Direction.UP
         dir_d = game.direction == Direction.DOWN
         
-        using_path = 1 if game.path != None else 0
-        
         state = [
-            # A* State
-            using_path,
-            
             # Danger straight
             (dir_r and game.is_collision(point_r)) or 
             (dir_l and game.is_collision(point_l)) or 
@@ -121,12 +116,15 @@ def train():
         reward, game_over, score = game.play_step(final_move)
        
         state_new = agent.get_state(game)
-        pygame.display.set_caption(f'Game: {agent.n_games + 1} | Agent Moves: {game.model_moves} | A* Moves: {game.engine_moves} | Score: {game.score} | Record: {record}')
+        
         # train short memory
         agent.train_short_memory(state_old, final_move, reward, state_new, game_over)
         
         # remember
         agent.remember(state_old, final_move, reward, state_new, game_over)
+        
+        # shows game stats on window
+        pygame.display.set_caption(f'Game: {agent.n_games + 1} | Engine Moves: {game.engine_moves} | Score: {game.score} | Record: {record}')
         
         if game_over:
             # train long memory (replay memory) and plot result
@@ -137,7 +135,7 @@ def train():
             if score > record: 
                 record = score
                 agent.model.save()
-        
+            
             plot_scores.append(score)
             total_score += score
             mean_score = total_score / agent.n_games

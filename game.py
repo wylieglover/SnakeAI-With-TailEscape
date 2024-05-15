@@ -113,9 +113,7 @@ class SnakeGameAI:
             return True
 
         return False
-
-    # Other class methods and initializations ...
-
+        
     def _update_ui(self):
         self.display.fill(BLACK)
         snake_length = len(self.snake)

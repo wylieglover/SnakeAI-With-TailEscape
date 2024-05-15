@@ -24,6 +24,9 @@ GREEN1 = (0, 255, 0)
 GREEN2 = (0, 186, 0)
 EYE_COLOR = (255, 255, 255)
 PUPIL_COLOR = (0, 0, 0)
+DARK_GREEN = (0, 100, 0)
+LIGHT_GREEN = (144, 238, 144)
+BROWN = (139, 69, 19)
 
 BLOCK_SIZE = 20
 SPEED = 100
@@ -111,11 +114,15 @@ class SnakeGameAI:
 
         return False
 
+    # Other class methods and initializations ...
+
     def _update_ui(self):
         self.display.fill(BLACK)
+        snake_length = len(self.snake)
+        
         for i, pt in enumerate(self.snake):
             if i == 0:  # Draw head with googly eyes
-                pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+                pygame.draw.rect(self.display, DARK_GREEN, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
                 # Draw eyes
                 eye_radius = 3
                 pupil_radius = 2
@@ -128,15 +135,26 @@ class SnakeGameAI:
                 eye_x = pt.x + BLOCK_SIZE - 5
                 pygame.draw.circle(self.display, EYE_COLOR, (eye_x, eye_y), eye_radius)
                 pygame.draw.circle(self.display, PUPIL_COLOR, (eye_x, eye_y), pupil_radius)
-            else:  # Draw the body
-                pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-                pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x + 4, pt.y + 4, 12, 12))
+            elif i == snake_length - 1:  # Draw tail with rattle design
+                pygame.draw.rect(self.display, BROWN, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+            else:  # Draw the body with gradient effect
+                ratio = i / snake_length
+                body_color = self.interpolate_color(DARK_GREEN, LIGHT_GREEN, ratio)
+                pygame.draw.rect(self.display, body_color, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
+
+    @staticmethod
+    def interpolate_color(start_color, end_color, ratio):
+        return (
+            int(start_color[0] + (end_color[0] - start_color[0]) * ratio),
+            int(start_color[1] + (end_color[1] - start_color[1]) * ratio),
+            int(start_color[2] + (end_color[2] - start_color[2]) * ratio),
+        )
 
     def _move(self): 
         head = [self.head.x // BLOCK_SIZE, self.head.y // BLOCK_SIZE]

@@ -6,13 +6,11 @@
 
 
 # Local Development Setup
-Before starting, these components must be installed (requirements.txt has them, look below for instructions)
-
+Before starting, these components must be installed:
 - python
 - pip
 
 Contents of requirements.txt:
-
 - pygame
 - torch
 - numpy
@@ -24,7 +22,7 @@ Start by cloning this repository into a local folder/directory:
 git clone https://github.com/wylieglover/SnakeAI-with-AStar.git
 ```
 
-Navigate into the repository's folder and run this command to download the necessary components:
+Navigate into the repository's folder and run the command below to download the necessary components:
 ```sh
 pip install -r requirements.txt
 ```
